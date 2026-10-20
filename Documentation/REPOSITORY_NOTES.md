@@ -1,0 +1,7 @@
+# Repository preparation — 2026-10-20
+
+The two supplied Unity project directories were compared by relative path and SHA-256 and are identical (380 files). One canonical project was copied to the repository root; the original delivery was left untouched. Duplicate source archives and build folders are not committed. The existing Windows ZIP is published separately as a Release.
+
+Assets, scene metadata, Packages and ProjectSettings are preserved, except the externally licensed `Assets/gsplat-unity-vfx` package and its folder metadata are excluded. The Windows build output path in GardenDesktopBuild.cs was changed from an old machine-specific location to `Builds/MonetGardenFinal/MonetGardenVR.exe`; both its menu entry and automation caller remain unchanged. PLY files use Git LFS. Existing historical reports and backups are preserved as historical records, not newly verified results.
+
+Unity 2022.3.62f3c1; URP 14.0.12; Unity Test Framework 1.1.33. Entry: Assets/Scenes/MonetGarden_Prototype.unity. Build Settings still contain SampleScene; the dedicated build menu explicitly chooses the prototype. No connected Unity tooling or runtime validation was used during preparation. PICO is unverified. Existing editor validation menus are documented in DEMO_GUIDE.md.

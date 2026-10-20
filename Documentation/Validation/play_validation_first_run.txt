@@ -1,0 +1,28 @@
+Actual Unity Editor Play validation 2026-10-08T23:33:22.1867201+08:00
+Unity 2022.3.62f3c1 / GPU NVIDIA GeForce RTX 4070 Laptop GPU
+PASS Experience reference 
+PASS Map entry state 
+PASS Gravity lands on proxy feet=(0.600, -0.017, 0.200)
+PASS Starting composition preserved 
+PASS No transition before exploration 
+PASS North water boundary blocks z=0.552
+PASS South pond boundary blocks z=-0.212
+PASS West garden boundary blocks x=-1.222
+PASS Exploration recorded from actual movement 
+PASS Viewpoint rejects wrong orientation 
+PASS Viewpoint rejects wrong distance 
+PASS Viewpoint accepts calibrated pose 
+PASS Interrupted hold resets 
+PASS Actual viewpoint hold ready hold=1
+PASS Explicit transition starts 
+PASS Movement locked during transition 
+PASS Intermediate painterly pass executes progress=0.5000418
+PASS Painting state reached 
+PASS Missing original truthfully gated 
+FAIL Original texture reaches final frame sample=RGBA(0.498, 0.561, 0.471, 1.000)
+PASS Reset restores exploration 
+PASS Reset returns camera 
+PASS Actor and Animator present 
+FAIL Actor travels path 
+PASS Return to map 
+RESULT: 2 failures. Keyboard/mouse user regression, visual bank alignment, mobile XR performance require separate checks.

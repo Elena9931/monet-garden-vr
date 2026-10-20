@@ -1,0 +1,10 @@
+Unity 2022.3.62f3c1
+Scene Assets/Scenes/MonetGarden_Prototype.unity
+Play False
+GPU NVIDIA GeForce RTX 4070 Laptop GPU / Direct3D12
+Shader MonetGarden/PainterlyTransition: found=True, supported=True
+Shader MonetGarden/LocalWaterRipples: found=True, supported=True
+Shader MonetGarden/LocalFoliageSway: found=True, supported=True
+Shader MonetGarden/ImpressionistEarth: found=True, supported=True
+Shader MonetGarden/PigmentParticles: found=True, supported=True
+State=Selection, progress=0, effectRendered=False

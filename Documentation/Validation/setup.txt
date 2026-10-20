@@ -1,0 +1,7 @@
+Configured 2026-10-08T23:27:31.6808917+08:00
+Recovered GSplat count: 1824584
+Preserved GSplat transform: (0.00, 0.00, 0.00) / (0.00, 0.00, 180.00) / (1.00, -1.00, 1.00)
+Original camera eye: (0.60, 0.81, 0.20) / (2.16, 178.59, 0.00)
+Missing legacy components removed in COPY: 4
+Proxy layout is provisional; metric scene scale is unverified.
+Original artwork/model/XR device not supplied.

@@ -1,0 +1,2 @@
+2026-10-09T08:03:37.3931865+08:00
+Prototype updated. Human placeholders removed. Exact user original 2400x2293. Separate offscreen renderer configured. Approximate viewpoint requires visual inspection.

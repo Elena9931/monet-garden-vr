@@ -1,0 +1,46 @@
+Final-design real Unity Play validation 2026-10-09T01:47:31.5975888+08:00
+Unity 2022.3.62f3c1, NVIDIA GeForce RTX 4070 Laptop GPU, Direct3D12
+PASS Experience loaded 
+PASS Starts on 3D earth 
+PASS Exact user image bound at full imported size 
+PASS No human GameObjects or actor behaviours 
+PASS Multiple pins with only one valid destination 
+PASS Future marker rejected London_FUTURE 
+PASS Future marker rejected Vienna_FUTURE 
+PASS Future marker rejected Rome_FUTURE 
+PASS Future marker rejected Madrid_FUTURE 
+PASS Future marker rejected NewYork_FUTURE 
+PASS Future marker rejected Tokyo_FUTURE 
+PASS Exactly one interactive marker 
+PASS Real sphere rotation changes 
+PASS Giverny collider raycast 
+PASS Giverny selection accepted 
+PASS Focus, zoom and pin enlargement 
+PASS Artistic entry is timed rather than a cut 
+PASS Exploration and WASD input enabled 
+PASS Gravity lands on proxy feet=(0.600, -0.010, 0.200)
+PASS No trigger before exploration 
+PASS North water blocks player 
+PASS South pond blocks player 
+PASS West obstacle blocks player 
+PASS Exploration from actual movement 
+PASS Position alone insufficient 
+PASS Angle alone insufficient 
+PASS Interrupted dwell resets 
+PASS Dwell has not triggered early 
+PASS Automatic trigger after dwell without E 
+PASS Actual particle system populated particles=5600
+PASS Dissolve render pass executes progress=0.498
+PASS Transition camera and root fixed 
+PASS Original fully formed and clock started 
+PASS All control disabled during original 
+FAIL Final frame samples the exact original expected=RGBA(0.378, 0.504, 0.429, 1.000), frame=RGBA(0.294, 0.412, 0.322, 1.000), error=0.2843
+PASS Original still visible before 10 seconds 
+PASS No camera drift throughout hold 
+PASS 10 seconds measured separately from effect actual=10.0303s
+PASS Automatic gentle return 
+PASS Clean return to interactive globe 
+PASS Particles reset 
+PASS Second cycle auto-trigger 
+PASS Second cycle fully completes 
+RESULT: 43 checks; 1 failures. Full human keyboard/route regression and PICO are separate.
