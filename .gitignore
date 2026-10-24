@@ -17,3 +17,12 @@
 *.keystore
 /Assets/gsplat-unity-vfx/
 /Assets/gsplat-unity-vfx.meta
+/PICO/[Ll]ibrary/
+/PICO/[Tt]emp/
+/PICO/[Ll]ogs/
+/PICO/[Oo]bj/
+/PICO/[Uu]ser[Ss]ettings/
+/PICO/[Bb]uilds/
+/PICO/Assets/gsplat-unity-vfx/
+/PICO/Assets/gsplat-unity-vfx.meta
+/PICO/Packages/com.unity.xr.picoxr/

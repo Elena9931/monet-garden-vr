@@ -1,0 +1,13 @@
+#pragma kernel Init
+#pragma kernel Sort
+#pragma kernel Publish
+// Portable bitonic sorting: no wave/subgroup operations, no DXC requirement.
+// Count is a power of two. Each XOR pair has one writer; publish only completed sort.
+StructuredBuffer<float3> _Positions;
+RWStructuredBuffer<uint2> _Work;
+RWStructuredBuffer<uint> _Order;
+float4x4 _ViewModel;
+uint _Count,_K,_J;
+[numthreads(128,1,1)]void Init(uint3 id:SV_DispatchThreadID){uint i=id.x;if(i>=_Count)return;float depth=max(0,-mul(_ViewModel,float4(_Positions[i],1)).z);_Work[i]=uint2(asuint(depth),i);}
+[numthreads(128,1,1)]void Sort(uint3 id:SV_DispatchThreadID){uint i=id.x;if(i>=_Count)return;uint j=i^_J;if(j<=i||j>=_Count)return;uint2 a=_Work[i],b=_Work[j];bool descending=(i&_K)==0;if((descending&&a.x<b.x)||(!descending&&a.x>b.x)){_Work[i]=b;_Work[j]=a;}}
+[numthreads(128,1,1)]void Publish(uint3 id:SV_DispatchThreadID){if(id.x<_Count)_Order[id.x]=_Work[id.x].y;}

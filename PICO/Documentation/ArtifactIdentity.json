@@ -1,0 +1,15 @@
+{
+  "edition": "MonetGarden_PICO",
+  "version": "0.1.2-fieldfix",
+  "versionCode": 3,
+  "package": "com.monetgarden.pico4",
+  "apk": "MonetGarden_PICO4_FieldFix_20261011.apk",
+  "bytes": 75276341,
+  "sha256": "542abb095870275e21d9b977229476e7b4a4015a7ac95f42e17037bb7c8ab790",
+  "sourceDeviceLog": "Documentation/Validation/FieldFix_Device_Log.txt",
+  "sourceDeviceLogSha256": "7ba0c25e0569d1fdb7117f060c0be6f8ad1009f4869feb6e12383180f9026532",
+  "sourceBuildTime": "2026-10-11T18:48:56.9132278+08:00",
+  "deviceHoldSeconds": 10.0449,
+  "deviceLoopsInRetainedLog": 1,
+  "currentReview": "2026-10-25 file/configuration/log inspection; author confirms completed headset adaptation and verification; no new headset run claimed"
+}

@@ -1,20 +1,26 @@
 # 莫奈花园 · Monet Garden
 
-基于 Unity 与 3D Gaussian Splatting 的桌面交互体验：旋转地球选择吉维尼，阅读花园与印象派引导，进入花园探索，在近似画家观察点停留注视，观看花园转化为颜料与画作，再自动返回地球。
+基于 Unity 与 3D Gaussian Splatting 的花园交互体验，包含Windows键鼠版与独立PICO头显版：旋转地球选择吉维尼，阅读花园与印象派引导，进入花园探索，在近似画家观察点停留注视，观看花园转化为颜料与画作，再自动返回地球。
 
-本页对应本地工程 **111**，于 **2026-10-25** 使用 Unity **2022.3.62f3c1** 实际运行、截图并重新构建。当前实现为 Windows 键鼠版；仓库名称中的 VR 不表示已支持头显。PICO / VR 未完成适配和真机验证。
+本页对应本地工程 **111**，于 **2026-10-25** 使用 Unity **2022.3.62f3c1** 实际运行、截图并重新构建。本仓库同时整理 **111 Windows键鼠版** 与独立的 **MonetGarden_PICO头显版**。作者已确认PICO适配和真机验证完成；本次另核对了PICO APK与已保存设备日志。[PICO说明与证据](PICO/README.md)。
 
 ![当前花园实机画面](Documentation/Screenshots111/07_Explore.png)
 
 ## 下载与运行
 
-在 [Releases](https://github.com/xuxiaoyangzi/monet-garden-vr/releases) 选择标注 **111 / 2026-10-25** 的 Windows 包，完整解压后运行 `MonetGardenVR.exe`。保留同目录的 `MonetGardenVR_Data`、`MonoBleedingEdge`、UnityPlayer.dll 等全部文件。程序窗口标题为 `111`。
+在本仓库的 **Releases** 页面选择标注 **111 / 2026-10-25** 的 Windows 包，完整解压后运行 `MonetGardenVR.exe`。保留同目录的 `MonetGardenVR_Data`、`MonoBleedingEdge`、UnityPlayer.dll 等全部文件。程序窗口标题为 `111`。
 
-旧版 `v0.1.0 / MonetGardenVR_Windows_Final.zip` 是历史构建，不能代表本页的新流程。新发布结果以 Release 实际附件为准。
+原老师仓库的 `v0.1.0 / MonetGardenVR_Windows_Final.zip` 是历史构建，不能代表本页的新流程。新发布结果以 Release 实际附件为准。
 
-本次测试环境为 Windows、RTX 4070 Laptop GPU、Direct3D 12。其他显卡和 VR 设备未验证，不据此承诺通用性能。
+本次测试环境为 Windows、RTX 4070 Laptop GPU、Direct3D 12。其他显卡未在本次Windows测试覆盖。PICO版另有设备事件证据，不将桌面显卡结果作为头显性能结论。
 
-## 完整体验顺序
+## PICO 头显版
+
+从同一Releases下载 `MonetGarden_PICO4_FieldFix_20261011.apk`（0.1.2-fieldfix，ARM64）。独立工程在 [PICO/](PICO/README.md)，具有头部追踪、控制器射线与世界空间引导。左摇杆移动/入口旋转，右摇杆30°转向，扳机选择，A/X重新居中或开关引导。
+
+作者已确认完成PICO适配与真机验证；保存日志记录了一次完整设备循环，原作停留10.0449秒。本次没有重新连接头显录屏，以下16张新截图全部属于Windows111。PICO版使用262144点移动端副本，不能把桌面画面直接当作头显画质。[完整状态](Documentation/PICO_READINESS.md)。
+
+## Windows 完整体验顺序
 
 1. 拖动地球，松开后有惯性减速。点击法国吉维尼发光红点，查看地点卡片。
 2. 点击卡片进入水上花园，约 2.4 秒交叉淡入。

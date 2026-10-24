@@ -1,0 +1,6 @@
+Time: 2026-10-11T18:49:04.0175583+08:00
+Result: Succeeded
+Errors: 0
+Warnings: 51
+Size: 629517876
+Duration: 00:01:17.1113480

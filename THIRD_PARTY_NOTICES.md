@@ -4,3 +4,4 @@
 - The original plugin credits gsplat-unity (Yize Wu) and Spark (World Labs) under MIT. Those notices remain applicable to their respective components; they do not replace the plugin's own terms.
 - Gaussian PLY models, artwork references and textures are retained from the supplied project. This repository does not assert a new license or independent provenance verification for these assets.
 - No blanket open-source license is granted by this repository preparation.
+- PICO edition additionally requires PICO Integration 3.4.0. Its proprietary SDK source and generated debugger prefabs are excluded from the public source. Restore them from a licensed local package. PICO project configuration, author XR scripts, and existing compiled APK are packaged separately.

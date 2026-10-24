@@ -1,9 +1,11 @@
 # 本次发布整理说明
 
-2026-10-25：以实际运行和重新构建通过的本地111为目标，保留原仓库main的提交历史。当前功能和测试事实见README、VERSION_COMPARISON_111.md和VERIFICATION_2026-10-25.md。
+2026-10-25：以实际运行和重新构建通过的本地111为目标，保留原仓库main的提交历史，并按作者要求发布到其新账号。当前功能和测试事实见README、VERSION_COMPARISON_111.md和VERIFICATION_2026-10-25.md。
 
 Assets、Packages和ProjectSettings取自本次运行前的111源码备份；仅在发布副本中把构建输出改为相对路径，并把Build Settings的入口改为已验证原型场景。原始本地工程不回退玩法。
 
 公开源码继续排除gsplat-unity-vfx第三方插件源码；完整Windows成品可以直接运行，源码恢复需要有许可的插件和本项目集成修改。PLY沿用Git LFS。
 
 Documentation中既有的ProcessShots、Validation、History、Backups和旧ROUND2报告是历史材料。新正式截图仅在Screenshots111；新证据在Verification111。历史自动测试次数不计入本次人工路线验证。
+
+PICO目录为独立MonetGarden_PICO工程，APK0.1.2-fieldfix与真机事件证据已核对。按作者确认更正PICO完成状态；只发布新整理源码和原始APK，未覆盖原PICO工程。

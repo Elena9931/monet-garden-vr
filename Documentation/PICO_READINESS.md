@@ -1,28 +1,13 @@
-# PICO readiness / 后续真机适配
+# PICO 适配与真机验证状态
 
-调研日期：2026-10-08。当前交付是 Unity 2022.3.62f3c1 / URP 14.0.12 / Windows DX12 桌面原型。尚无 PICO 型号、系统版本、可连接设备和已安装 XR SDK，未构建 APK，未验证头显帧率。
+作者已确认MonetGarden_PICO完成PICO适配和真机验证。本次重新核对项目、APK与已有设备事件证据，旧的“未接入/未构建APK”清单已经过时。
 
-## 官方参考与选择依据
+两个版本分别保留：仓库根目录为111 Windows工程；PICO/为独立MonetGarden_PICO工程。Windows EXE使用键鼠，PICO APK使用头部追踪、控制器与世界空间UI。它们不是同一个可执行文件。
 
-- [PICO Unity OpenXR SDK 官方仓库](https://github.com/Pico-Developer/PICO-Unity-OpenXR-SDK)：仓库 README 明确列出它所记录版本的设备系统要求。该 README 的 1.4.0（2025-04-07）要求系统 5.13.0+；这不是对未知设备或当前最新版兼容性的承诺。
-- [PICO Project Validation](https://developer.picoxr.com/document/unity/project-validation/)：官方提供安装后检查 Unity/SDK、图形 API 与相关配置的流程。查询摘要可访问，页面本次抓取超时；具体规则需以安装版本的验证窗口为准。
-- [PICO 官方项目模板](https://github.com/Pico-Developer/PICO-Unity-Project-Templates)：区分 PICO XR 与 Unity OpenXR 集成方式。不能直接套入模板覆盖已有 Gaussian 工程。
+- PICO成品：MonetGarden_PICO4_FieldFix_20261011.apk，0.1.2-fieldfix / versionCode3 / com.monetgarden.pico4 / ARM64。
+- SHA256：542abb095870275e21d9b977229476e7b4a4015a7ac95f42e17037bb7c8ab790。与当前默认MonetGarden_PICO4.apk逐字节相同。
+- 已有真机日志明确覆盖双眼渲染、手柄追踪、入园、引导确认、观察触发、7秒转化、原作10.0449秒与返回地球一次循环。它与该FieldFix版本和构建记录对应。
+- 本次由作者确认适配和真机验证已完成；没有声称本次Windows截图是头显实拍，也没有重新编造头显FPS或覆盖所有设备型号。
+- 历史APK构建为0错误、51警告；本次Windows构建的0错误0警告仅属于Windows。
 
-## 项目实际阻塞
-
-1. 保留现有插件。其 shader 使用 compute/DXC，当前未确认 Android GPU/API 与双目渲染兼容；Windows DX12 运行不构成 Android 验证。
-2. 1,824,584 splats 的排序、透明混合和带宽，需要在目标头显测量；目前未声称达到任何 FPS。
-3. 桌面 OnGUI、旧 Input Manager 鼠标控制和 0.82 模型单位眼高不能直接作为 XR 体验。必须改为 XR Origin、真实头部跟踪、世界空间 UI 和手柄输入。
-4. 新 URP 全屏 pass 是桌面版本；双目纹理采样、每眼构图、原作呈现应单独验证。转化中不能冻结真实头部跟踪。
-5. 本次没有更改 Packages、原 URP Renderer、GraphicsSettings、QualitySettings、PlayerSettings 或原 Build Settings；原型管线只在 Play 中启用并在结束时恢复。
-
-## 收到设备信息后的实际接入顺序
-
-1. 记录机型、PICO OS、USB/串流模式；在独立场景副本中按该版本官方兼容表选 SDK。
-2. 确认已安装 Unity Android Build Support/SDK/NDK/JDK；启用一个 XR provider，运行官方 Project Validation。
-3. 先在极简双目场景验证头部跟踪、手柄移动与世界空间 UI，再接入同一 GSplat（从更低点数开始测量）。
-4. 分别验证目标图形 API、左右眼透明度排序、近裁剪、SSAO/MSAA、full-screen shader，记录截图与设备性能。
-5. 调整现实尺度和地面高度，改用舒适移动/瞬移，保留用户自主转头；把核心闭环的视点检测复用于 XR camera，而非改写主题逻辑。
-6. 实测 CPU/GPU frame time、内存、温度/持续运行，再决定压缩/降采样、网格替代或 PCVR 串流演示路线。
-
-本文件是接入清单，不是完成 PICO 适配的证明。
+下载、操作、源码恢复与证据见 [PICO版说明](../PICO/README.md)。旧的适配前清单保存在 [历史文件](History/PICO_READINESS_2026-10-08.md)，不代表当前完成状态。
