@@ -9,7 +9,7 @@ namespace MonetGarden
     {
         string report;int failures,checks;
         void Check(string name,bool passed,string detail="")
-        {checks++;report+=$"{(passed?"PASS":"FAIL")} {name} {detail}\n";if(!passed)failures++;File.WriteAllText("Documentation/Validation/final_play_validation.txt",report);}
+        {checks++;report+=$"{(passed?"PASS":"FAIL")} {name} {detail}\n";if(!passed)failures++;File.WriteAllText("Documentation/Validation/round2_play_validation.txt",report);}
         void Align(GardenExperience f)
         {
             var p=f.player;var cc=p.GetComponent<CharacterController>();p.SetInput(false);cc.enabled=false;
@@ -20,7 +20,7 @@ namespace MonetGarden
         {yield return new WaitForEndOfFrame();ScreenCapture.CaptureScreenshot("Documentation/ProcessShots/"+name+".png");yield return new WaitForEndOfFrame();}
         IEnumerator Start()
         {
-            report=$"Final-design real Unity Play validation {DateTime.Now:O}\nUnity {Application.unityVersion}, {SystemInfo.graphicsDeviceName}, {SystemInfo.graphicsDeviceType}\n";
+            report=$"Round 2 real Unity Play validation {DateTime.Now:O}\nUnity {Application.unityVersion}, {SystemInfo.graphicsDeviceName}, {SystemInfo.graphicsDeviceType}\n";
             yield return null;yield return null;var f=GardenExperience.Active;Check("Experience loaded",f);if(!f)yield break;
             var p=f.player;var vp=f.viewpoint;var cc=p.GetComponent<CharacterController>();var g=f.globeInterface;
             Check("Starts on 3D earth",f.State==GardenExperience.ExperienceState.Selection && g.Sphere && g.GlobeCamera && g.View);
@@ -36,22 +36,28 @@ namespace MonetGarden
                 if(Vector3.Dot((pin.transform.position-g.Sphere.position).normalized,(g.GlobeCamera.transform.position-g.Sphere.position).normalized)>.1f)
                     Check("Future pin pointer cannot enter "+pin.name,g.Hit(new Vector2(point.x*Screen.width,point.y*Screen.height))!=g.ActiveMarker);
             }
-            yield return Capture("F01_Globe_Game");
+            yield return Capture("R2_F01_Globe_Game");
             // Ray hit is tested through the same projection and Physics path as mouse clicks.
             var world=g.ActiveMarker.transform.GetChild(0).position;var screen=g.GlobeCamera.WorldToViewportPoint(world);
             Check("Giverny collider raycast",g.Hit(new Vector2(screen.x*Screen.width,screen.y*Screen.height))==g.ActiveMarker);
             Check("Giverny selection accepted",g.SelectLandmark(g.ActiveMarker));yield return new WaitForSecondsRealtime(g.focusSeconds+.2f);
             Check("Focus, zoom and pin enlargement",g.Selected && g.FocusProgress==1 && g.ActiveMarker.transform.localScale.x>1.5f && g.GlobeCamera.transform.localPosition.z>-3.1f);
             Check("Selected pin remains outside information card",!g.CardRect.Contains(g.ActiveScreenPoint()));
-            yield return Capture("F02_LandmarkCard_Game");
+            yield return Capture("R2_F02_LandmarkCard_Game");
             f.EnterGarden();Check("Artistic entry is timed rather than a cut",f.State==GardenExperience.ExperienceState.Entering && !p.InputEnabled);
             yield return new WaitForSecondsRealtime(f.entrySeconds+.2f);Check("Exploration and WASD input enabled",f.State==GardenExperience.ExperienceState.Exploration && p.InputEnabled);
-            yield return new WaitForSeconds(.4f);Check("Gravity lands on proxy",cc.isGrounded,$"feet={p.transform.position:F3}");
+            yield return new WaitForSeconds(.4f);Check("Guide interaction pauses navigation",p.UIInteraction && !f.guide.QuestConfirmed);
             var sounds=f.dynamicEnvironment.GetComponentsInChildren<AudioSource>();bool audioReady=sounds.Length==3;
             foreach(var sound in sounds)audioReady&=sound.clip && sound.isPlaying && sound.volume>0;
             Check("Three synthesized ambience sources playing",audioReady);
             Check("No trigger before exploration",!f.BeginTransition());
-            yield return Capture("F03_NoPeople_Garden_Game");
+            Check("Guide starts on exact first page",f.guide && f.guide.Page==0 && f.guide.Expanded && !f.guide.QuestConfirmed);
+            var marker=FindObjectOfType<GardenViewpointLight>();Check("Marker hidden before confirmation",!marker.MarkerVisible);
+            yield return Capture("R2_02_GuideExpanded_Game");
+            f.guide.Close();yield return null;Check("Guide closes without confirming quest",!f.guide.Expanded && !f.guide.QuestConfirmed);yield return Capture("R2_02_GuideCollapsed_Game");
+            f.guide.Open();f.guide.NextPage();Check("Second guide page",f.guide.Page==1);f.guide.PreviousPage();Check("Guide back navigation",f.guide.Page==0);f.guide.NextPage();f.guide.NextPage();Check("Third page alone does not confirm",f.guide.Page==2 && !f.guide.QuestConfirmed);f.guide.NextPage();yield return null;
+            Check("Confirmation starts quest and closes panel",f.guide.QuestConfirmed && !f.guide.Expanded && !p.UIInteraction);Check("Marker shown only after confirmation",marker.MarkerVisible);yield return new WaitForSecondsRealtime(.4f);Check("Gravity lands on proxy",cc.isGrounded,$"feet={p.transform.position:F3}");
+            p.ReleaseCursor();p.viewCamera.transform.LookAt(marker.transform.position+Vector3.up*marker.groundClearance);yield return Capture("R2_03_GoldMarker_Game");p.ResetToSpawn();yield return Capture("R2_F03_NoPeople_Garden_Game");
             for(int i=0;i<35;i++){cc.Move(Vector3.forward*.045f);yield return null;}Check("North water blocks player",p.transform.position.z<.62f);
             p.ResetToSpawn();for(int i=0;i<35;i++){cc.Move(Vector3.back*.045f);yield return null;}Check("South pond blocks player",p.transform.position.z>-.3f);
             p.ResetToSpawn();for(int i=0;i<75;i++){cc.Move(Vector3.left*.045f);yield return null;}Check("West obstacle blocks player",p.transform.position.x>-1.3f);
@@ -71,18 +77,24 @@ namespace MonetGarden
             Check("Angle alone insufficient",!GardenViewpoint.IsAligned(vp.transform.position+Vector3.right*2,vp.transform.forward,vp.transform.position,vp.transform.forward,vp.radius,vp.verticalTolerance,vp.yawTolerance,vp.pitchTolerance,true));
             vp.Tick(p.viewCamera,1,true);vp.Tick(p.viewCamera,.1f,false);Check("Interrupted dwell resets",vp.HoldProgress==0);
             Align(f);yield return new WaitForSeconds(vp.holdSeconds*.55f);Check("Dwell has not triggered early",f.State==GardenExperience.ExperienceState.Exploration && vp.HoldProgress<1);
-            yield return Capture("F04_Viewpoint_Game");
-            yield return Capture("F05_AlignedReal_Game");
+            yield return Capture("R2_F04_Viewpoint_Game");
+            yield return Capture("R2_F05_AlignedReal_Game");
             while(f.State==GardenExperience.ExperienceState.Exploration)yield return null;
             Check("Automatic trigger after dwell without E",f.State==GardenExperience.ExperienceState.Transition && vp.Ready && !p.InputEnabled);
             var lockedPosition=p.transform.position;var lockedLook=p.viewCamera.transform.rotation;
-            yield return new WaitForSecondsRealtime(f.transitionSeconds*.48f);
-            Check("Actual particle system populated",f.reassembly.VisibleParticleCount>=500,$"particles={f.reassembly.VisibleParticleCount}");
+            Check("Uniform Sphere Points selected for real splat renderer",f.gaussianTransition.Running && f.gaussianTransition.rendererSource.effectType==Gsplat.GsplatEffectType.UniformSpherePoints);
+            Check("Guide hidden during transformation",!GameObject.Find("GardenGuideCanvas").GetComponent<Canvas>().enabled);Check("Marker hidden during transformation",!marker.MarkerVisible);
+            double transitionStart=Time.realtimeSinceStartupAsDouble;
+            yield return new WaitForSecondsRealtime(.8f);yield return Capture("R2_05_SphereDissolution_Game");
+            yield return new WaitForSecondsRealtime(1.9f);yield return Capture("R2_06_Dispersion_Game");
+            yield return new WaitForSecondsRealtime(1.5f);yield return Capture("R2_07_Reconstruction_Game");
+            Check("Actual GPU pigment billboards active",f.reassembly.VisibleParticleCount>=500,$"particles={f.reassembly.VisibleParticleCount}");
             Check("Dissolve render pass executes",f.EffectRendered && f.Progress>.35f && f.Progress<.8f,$"progress={f.Progress:F3}");
             Check("Transition camera and root fixed",Vector3.Distance(p.transform.position,lockedPosition)<.0001f && Quaternion.Angle(lockedLook,p.viewCamera.transform.rotation)<.001f);
-            yield return Capture("F05_DissolveReassembly_Game");
+            yield return Capture("R2_F05_DissolveReassembly_Game");
             while(f.State==GardenExperience.ExperienceState.Transition)yield return null;
             yield return new WaitForEndOfFrame();yield return new WaitForEndOfFrame();
+            Check("Seven-second sequence duration",Time.realtimeSinceStartupAsDouble-transitionStart>=6.8 && Time.realtimeSinceStartupAsDouble-transitionStart<8.5);
             Check("Original fully formed and clock started",f.State==GardenExperience.ExperienceState.Painting && f.Progress==1 && f.PaintingStartedAt>=0);
             Check("All control disabled during original",!p.InputEnabled);
             var frame=ScreenCapture.CaptureScreenshotAsTexture();var image=f.SelectedArtwork.originalPainting;
@@ -101,7 +113,7 @@ namespace MonetGarden
                 expected/=576;observed/=576;colourError+=Mathf.Abs(expected.r-observed.r)+Mathf.Abs(expected.g-observed.g)+Mathf.Abs(expected.b-observed.b);
             }
             colourError/=27;Check("Final original colour across nine image patches",colourError<.025f,$"mean RGB channel error={colourError:F5}");Destroy(frame);
-            yield return Capture("F05_FinalMonet_Game");
+            yield return Capture("R2_F05_FinalMonet_Game");
             while(Time.realtimeSinceStartupAsDouble-f.PaintingStartedAt<9.8)yield return null;
             Check("Original still visible before 10 seconds",f.State==GardenExperience.ExperienceState.Painting);
             Check("No camera drift throughout hold",Vector3.Distance(p.transform.position,lockedPosition)<.0001f && Quaternion.Angle(lockedLook,p.viewCamera.transform.rotation)<.001f);
@@ -110,15 +122,16 @@ namespace MonetGarden
             Check("Automatic gentle return",f.State==GardenExperience.ExperienceState.Returning);
             yield return new WaitForSecondsRealtime(f.returnSeconds+.3f);
             Check("Clean return to interactive globe",f.State==GardenExperience.ExperienceState.Selection && f.Progress==0 && !f.HasExplored && !vp.Ready && !g.Selected);
-            Check("Particles reset",f.reassembly.VisibleParticleCount==0);
+            Check("Particles reset",f.reassembly.VisibleParticleCount==0);Check("Splat parameters restored",!f.gaussianTransition.Running && f.gaussianTransition.rendererSource.effectType!=Gsplat.GsplatEffectType.UniformSpherePoints);Check("Guide quest resets",!f.guide.QuestConfirmed && f.guide.Page==0);
             // A second complete cycle exercises re-entry, capture refresh, timer reset and automatic return.
             g.SelectLandmark(g.ActiveMarker);yield return new WaitForSecondsRealtime(g.focusSeconds+.1f);f.EnterGarden();yield return new WaitForSecondsRealtime(f.entrySeconds+.2f);
+            f.guide.NextPage();f.guide.NextPage();f.guide.NextPage();
             p.GetComponent<CharacterController>().Move(Vector3.left*.6f);yield return null;Align(f);
             while(f.State==GardenExperience.ExperienceState.Exploration)yield return null;
             Check("Second cycle auto-trigger",f.State==GardenExperience.ExperienceState.Transition);
             while(f.State!=GardenExperience.ExperienceState.Selection)yield return null;
             Check("Second cycle fully completes",f.CompletedLoops==2 && f.LastPaintingHold>=10 && f.Progress==0 && !p.InputEnabled);
-            report+=$"RESULT: {checks} checks; {failures} failures. Full human keyboard/route regression and PICO are separate.\n";File.WriteAllText("Documentation/Validation/final_play_validation.txt",report);
+            report+=$"RESULT: {checks} checks; {failures} failures. Full human keyboard/route regression and PICO are separate.\n";File.WriteAllText("Documentation/Validation/round2_play_validation.txt",report);
             Debug.Log("MONET_FINAL_VALIDATION_COMPLETE: "+failures+" failures.");Destroy(gameObject);
         }
     }

@@ -11,7 +11,7 @@ namespace MonetGarden.Editor
         public static void Build()
         {
             if(EditorApplication.isPlaying)throw new InvalidOperationException("Stop Play before building the demo.");
-            string output="Builds/MonetGardenFinal/MonetGardenVR.exe";
+            string output="Builds/MonetGarden111/MonetGardenVR.exe";
             Directory.CreateDirectory(Path.GetDirectoryName(output));
             var report=BuildPipeline.BuildPlayer(new BuildPlayerOptions {
                 scenes=new[]{"Assets/Scenes/MonetGarden_Prototype.unity"},
@@ -21,7 +21,7 @@ namespace MonetGarden.Editor
             string text=$"Windows build {DateTime.Now:O}\nResult: {report.summary.result}\nErrors: {report.summary.totalErrors}\nWarnings: {report.summary.totalWarnings}\nSize: {report.summary.totalSize}\nDuration: {report.summary.totalTime}\nOutput: {output}\n";
             foreach(var step in report.steps)foreach(var message in step.messages)
                 if(message.type==LogType.Error || message.type==LogType.Exception || message.type==LogType.Warning)text+=$"{message.type}: {message.content}\n";
-            File.WriteAllText("Documentation/Validation/windows_build.txt",text);
+            File.WriteAllText("Documentation/Validation/round2_windows_build.txt",text);
             Debug.Log("MONET_WINDOWS_BUILD: "+report.summary.result);
         }
     }

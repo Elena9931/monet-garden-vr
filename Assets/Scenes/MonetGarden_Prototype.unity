@@ -478,6 +478,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lights: {fileID: 108733685}
   visibilityDistance: 2.5
+  markerSize: 0.11
+  groundClearance: 0.13
+  floatAmplitude: 0.035
+  floatPeriod: 2
 --- !u!199 &108733684
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -635,7 +639,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -806,7 +810,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.025
+      scalar: 0.015
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1270,7 +1274,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.18
+      value: 0.065
       mode: 0
       spread: 0
       speed:
@@ -7655,8 +7659,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d578b84dc0f962449183d63ab667499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particleCount: 5600
-  pigmentShader: {fileID: 4800000, guid: ff79ba98dd2a5544ea15395557be4ec5, type: 3}
+  particleCount: 18000
+  pigmentShader: {fileID: 4800000, guid: 6ad3ce586c3e0d8438e9bd9e5b3dc922, type: 3}
   dispersion: 1
 --- !u!4 &674926864
 Transform:
@@ -8739,6 +8743,8 @@ GameObject:
   m_Component:
   - component: {fileID: 850209985}
   - component: {fileID: 850209984}
+  - component: {fileID: 850209987}
+  - component: {fileID: 850209986}
   m_Layer: 0
   m_Name: MonetGardenExperience
   m_TagString: Untagged
@@ -8767,7 +8773,9 @@ MonoBehaviour:
   painterlyShader: {fileID: 4800000, guid: 5a545becaaaf0914586dec8bd8019d91, type: 3}
   globeInterface: {fileID: 1652526948}
   reassembly: {fileID: 674926863}
-  transitionSeconds: 9
+  guide: {fileID: 850209987}
+  gaussianTransition: {fileID: 850209986}
+  transitionSeconds: 7
   entrySeconds: 2.4
   returnSeconds: 2.4
   explorationDistance: 0.4
@@ -8791,6 +8799,36 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &850209986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 850209983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d23cb79e0f86aa741be66434f3dafa45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rendererSource: {fileID: 167952597}
+  pointSize: 0.004
+  spread: 1.35
+  assemblyDensity: 0.12
+--- !u!114 &850209987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 850209983}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4516f96a7e7eb5643a63d111bb215711, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  glassShader: {fileID: 4800000, guid: a73532b3abaeaa54f80c900f270674c8, type: 3}
+  widthFraction: 0.24
 --- !u!1 &850375793
 GameObject:
   m_ObjectHideFlags: 0
@@ -10425,8 +10463,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 0.36
   verticalTolerance: 0.2
-  yawTolerance: 8
-  pitchTolerance: 5
+  yawTolerance: 16
+  pitchTolerance: 8
   holdSeconds: 3
   requirePitch: 1
 --- !u!4 &1270633323
@@ -12945,8 +12983,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7734d94423e6b9d4a8f52f4101cb6fc1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  surfaceTexture: {fileID: 2800000, guid: 6f959e7cb732cc743888c9a5c8ccce7b, type: 3}
+  surfaceTexture: {fileID: 2800000, guid: 351e27943b00d3043b68d0302b3115e1, type: 3}
   globeShader: {fileID: 4800000, guid: 04691724d2bd2e040ae3fe59c2fbc60d, type: 3}
+  surfaceMaterial: {fileID: 2100000, guid: d3e65424a4488b14dae1275ed2be582d, type: 2}
+  atmosphereMaterial: {fileID: 2100000, guid: 1fd2bc73bde1fbb4a98b285949d999e7, type: 2}
   dragSensitivity: 0.18
   inertiaFriction: 3.2
   focusSeconds: 1.6

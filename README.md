@@ -1,57 +1,96 @@
 # 莫奈花园 · Monet Garden
 
-基于 Unity 与 3D Gaussian Splatting 的莫奈花园桌面交互原型：旋转地球选择吉维尼，进入花园探索，在指定观察位置触发溶解、颜料重组与画作展示，随后返回地球。
+基于 Unity 与 3D Gaussian Splatting 的桌面交互体验：旋转地球选择吉维尼，阅读花园与印象派引导，进入花园探索，在近似画家观察点停留注视，观看花园转化为颜料与画作，再自动返回地球。
 
-![地球界面](Documentation/ProcessShots/F01_Globe_Windows.png)
+本页对应本地工程 **111**，于 **2026-10-25** 使用 Unity **2022.3.62f3c1** 实际运行、截图并重新构建。当前实现为 Windows 键鼠版；仓库名称中的 VR 不表示已支持头显。PICO / VR 未完成适配和真机验证。
 
-## 直接运行
+![当前花园实机画面](Documentation/Screenshots111/07_Explore.png)
 
-在 [Releases](https://github.com/xuxiaoyangzi/monet-garden-vr/releases) 下载 Windows ZIP，完整解压后运行 `MonetGardenVR.exe`。保留整个目录中的 Data、MonoBleedingEdge 和 DLL 文件。
+## 下载与运行
 
-拖拽地球 → 点击吉维尼标记 → 再次点击信息卡片进入花园。WASD 移动，Shift 加速；点击画面捕获鼠标，Esc 释放。回到出生区域附近光点，面对日本桥调整位置和视角，保持正确构图 3 秒后自动进入转化。画作展示 10 秒后自动返回地球。探索时 R 重置、M 返回地图、G 切换动态层；Alt+F4 退出。
+在 [Releases](https://github.com/xuxiaoyangzi/monet-garden-vr/releases) 选择标注 **111 / 2026-10-25** 的 Windows 包，完整解压后运行 `MonetGardenVR.exe`。保留同目录的 `MonetGardenVR_Data`、`MonoBleedingEdge`、UnityPlayer.dll 等全部文件。程序窗口标题为 `111`。
 
-## 打开源码
+旧版 `v0.1.0 / MonetGardenVR_Windows_Final.zip` 是历史构建，不能代表本页的新流程。新发布结果以 Release 实际附件为准。
 
-1. 安装 Git LFS，执行下列命令下载完整模型：
+本次测试环境为 Windows、RTX 4070 Laptop GPU、Direct3D 12。其他显卡和 VR 设备未验证，不据此承诺通用性能。
 
-   ```sh
-   git lfs install
-   git clone https://github.com/xuxiaoyangzi/monet-garden-vr.git
-   cd monet-garden-vr
-   git lfs pull
-   ```
+## 完整体验顺序
 
-2. 安装项目原版本 **Unity 2022.3.62f3c1**（中国版），并安装 Windows Build Support。其他版本兼容性未验证。
-3. **先恢复外部插件**：本项目依赖 Dreamcore XR Labs 的 **3DGS-VFX 2.0.0**（`dreamcore.xr.3dgsvfx`）。其许可证限制源码再分发，因此本仓库不包含 `Assets/gsplat-unity-vfx/`。请从原作者合法取得同版本插件，连同原 `.meta` 文件恢复至该路径，保持 GUID，否则场景可能丢失引用或无法编译。原插件目录 GUID：`f9f884a8245d30f40b138b62ac1ca19d`。
-4. 用 Unity Hub 添加仓库根目录，等待依赖导入。打开 `Assets/Scenes/MonetGarden_Prototype.unity` 后按 Play。默认 Build Settings 仍是原始 SampleScene，请使用专用构建菜单。
-5. 构建：`Tools > Monet Garden > Build Windows Demo`，输出至 `Builds/MonetGardenFinal/MonetGardenVR.exe`。
+1. 拖动地球，松开后有惯性减速。点击法国吉维尼发光红点，查看地点卡片。
+2. 点击卡片进入水上花园，约 2.4 秒交叉淡入。
+3. 阅读右侧三页引导：花园介绍、印象派、寻找观察点。第一页可滚动，按 Continue 翻页，第三页按 Confirm 确认任务。
+4. 使用 WASD 沿岸边探索。任务确认后还需实际移动，再寻找岸边金色光点。近似观察点靠近起始区域。
+5. 返回观察区域、面向日本桥并调整俯仰；出现 `Hold your gaze` 后保持位置和视角约 3 秒。无需额外按键触发。
+6. 自动播放约 7 秒的场景点化、颜料散开和画作重组。期间镜头与移动锁定。
+7. 完整原作按比例展示约 10 秒，随后约 2.4 秒淡回地球，可再次进入。
 
-**未安装外部插件时，源码不能直接运行。** 想直接体验请下载 Windows Release。
+观察点是用于体验的近似构图位置，未经历史资料认证。作品使用工程提供的桥梁原图，具体作品名、年份与收藏机构尚未确认。
 
-## 工程结构
+```mermaid
+flowchart TD
+ A[地球入口] --> B[选择吉维尼地点卡]
+ B --> C[淡入花园]
+ C --> D[三页引导并 Confirm]
+ D --> E[自由探索]
+ E --> F[观察位置与方向对齐并保持3秒]
+ F --> G[7秒高斯点化与颜料重组]
+ G --> H[完整原作展示10秒]
+ H --> I[淡回地球]
+ I --> A
+ E -->|M 返回地图| A
+ E -->|R 重置引导和出生点| D
+ E -->|Guide 重读| D
+ A --> J[其他地点仅为未来扩展]
+```
 
-| 路径 | 内容 |
-| --- | --- |
-| `Assets/Scenes/MonetGarden_Prototype.unity` | 演示入口 |
-| `Assets/Scripts/MonetGarden/` | 花园体验、地球交互、视点与画作转化 |
-| `Assets/Editor/MonetGarden/` | 构建、场景审计与 Play 验证菜单 |
-| `Assets/MonetGarden/` | 材质、画作、地图、渲染及参考资源 |
-| `Assets/models/`、`Assets/模型/` | Gaussian 模型，使用 Git LFS |
-| `Packages/`、`ProjectSettings/` | Unity 依赖和项目配置 |
-| `Documentation/` | 原始设计记录、操作指南、截图、历史验证与备份 |
+## 操作
 
-## 文档与验证
+| 输入 | 实际作用 |
+|---|---|
+| 地球上鼠标拖动 | 旋转地球，松开后惯性减速 |
+| 点击吉维尼红点，再点击卡片 | 选择地点并进入花园 |
+| Continue / Previous / Confirm | 引导翻页、返回、确认观察任务 |
+| WASD / 左 Shift | 行走 / 加速（探索阶段） |
+| 鼠标 | 捕获鼠标后调整视角 |
+| Tab | 切换视角操作与 UI 交互；UI 模式会暂停移动和观察计时 |
+| Esc | 释放鼠标并进入 UI 交互；用 Tab 恢复探索 |
+| Guide / − / × | 重开 / 收起 / 关闭引导；关闭不能替代 Confirm |
+| R | 探索时回到出生点，重新开始三页引导和探索任务 |
+| M | 探索时返回地球 |
+| G | 探索时切换附加动态环境层 |
+| Alt+F4 | 关闭 Windows 程序 |
 
-- [详细操作指南](Documentation/DEMO_GUIDE.md)
-- [最终设计说明](Documentation/FINAL_DESIGN_NOTES.md)
-- [原始交付报告](Documentation/FINAL_REPORT.md)
-- [PICO 状态](Documentation/PICO_READINESS.md)
-- [整理记录](Documentation/REPOSITORY_NOTES.md)
+转化和原作展示期间，R / M / G 不作为跳过操作。没有发现多结局或额外可进入的目的地。
 
-已有编辑器验证入口：`Tools > Monet Garden > Audit Saved Scene` 和 `Run Play Validation`。仓库整理仅做文件一致性、依赖、敏感信息与 Git/LFS 检查，未重新执行 Unity 编译、Play 或构建。历史报告中的测试结果属于原始交付记录。
+## 真实流程截图
 
-这是 Windows 桌面原型；PICO/头显交互尚未实现或验证。
+所有正式截图来自本次 `111` 的 Unity Play 实际运行，1920×1080；没有生成、修饰或替换游戏画面。使用普通鼠标键盘完成路线，临时编辑器观察器仅记录画面和状态，没有移动玩家或改变时间。完整 16 张、操作说明和原始帧校验见 [截图对应表](Documentation/SCREENSHOT_INDEX_111.md)。
 
-## 资源与许可
+| 地球与卡片 | 引导与观察 |
+|---|---|
+| ![地球](Documentation/Screenshots111/01_Globe.png) | ![引导](Documentation/Screenshots111/04_GuideGarden.png) |
+| ![地点卡](Documentation/Screenshots111/02_GivernyCard.png) | ![观察](Documentation/Screenshots111/09_ObserveBridge.png) |
 
-公开可见不代表所有内容均采用开源许可。本次整理没有替作者添加统一 MIT 等许可。第三方插件继续遵守原作者许可；模型、参考画作、纹理等资源的授权范围应分别确认。参见 [第三方说明](THIRD_PARTY_NOTICES.md)。
+| 转化中段 | 画作重组 |
+|---|---|
+| ![颜料散开](Documentation/Screenshots111/11_PigmentScatter.png) | ![重组](Documentation/Screenshots111/12_PaintingAssembly.png) |
+
+![完整原作](Documentation/Screenshots111/14_OriginalPainting.png)
+
+## 工程查看与构建
+
+源码使用 Git LFS 保存 PLY。克隆后执行 `git lfs pull`，避免导入文本指针。安装 Unity 2022.3.62f3c1 和 Windows Build Support，恢复有许可的 **3DGS-VFX 2.0.0** 依赖后，打开 `Assets/Scenes/MonetGarden_Prototype.unity`。其余 SampleScene 是示例，不是本次入口。
+
+第三方插件源码因其许可限制未随公开仓库提供；直接下载 Windows 包即可体验。[依赖恢复说明](Documentation/DEPENDENCIES_111.md) 记录了插件和本项目 HLSL 的集成要求。源码不是零依赖开箱即用工程。
+
+使用菜单 `Tools > Monet Garden > Build Windows Demo` 构建到工程内 `Builds/MonetGarden111/MonetGardenVR.exe`。发布副本的 Build Settings 已选中原型场景；原始 `111` 的默认 Build Settings 仍为 SampleScene，本次构建明确指定真实入口。
+
+## 核对材料
+
+- [版本差异与更新方案](Documentation/VERSION_COMPARISON_111.md)
+- [本次运行测试记录](Documentation/VERIFICATION_2026-10-25.md)
+- [截图对应表](Documentation/SCREENSHOT_INDEX_111.md)
+- [依赖与源码限制](Documentation/DEPENDENCIES_111.md)
+- [第三方资源声明](THIRD_PARTY_NOTICES.md)
+
+旧交接文档、Validation、ProcessShots 和 ROUND2 报告保留为开发历史；其中历史通过数量、旧截图和日期不代表本次重新验证结果。以以上本次核对材料为准。

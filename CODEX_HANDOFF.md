@@ -1,3 +1,5 @@
+> 历史开发交接材料。当前发布版本的实际运行与截图以 [2026-10-25核对报告](Documentation/VERIFICATION_2026-10-25.md) 及 [版本差异](Documentation/VERSION_COMPARISON_111.md) 为准。
+
 > 最新交付（2026-10-09）：请先读取 CODEX_FINAL_HANDOFF.md 与 Documentation/FINAL_REPORT.md。最新设计已移除人物，采用位置与角度保持3秒自动触发、指定原作独立10秒与自动返回地球；下文为历史交接，不应恢复旧人物或E键流程。最终Play回归55项通过，最新Windows构建0错误/0警告，PICO未实现与测试。
 
 # Monet Garden VR — Codex 项目交接说明

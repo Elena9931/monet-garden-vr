@@ -1,0 +1,8 @@
+Windows build 2026-10-09T21:54:07.4505522+08:00
+Result: Succeeded
+Errors: 0
+Warnings: 1
+Size: 232352927
+Duration: 00:00:07.8295698
+Output: C:/Users/25221/Documents/Codex/2026-10-08/https-chatgpt-com-share-6ac7af07-58c0/outputs/MonetGardenRound2/MonetGardenVR.exe
+Warning: Assets\Scripts\GsplatShapes\GsplatCubeLineRevealExperiment.cs(77,31): warning CS0414: The field 'GsplatCubeLineRevealExperiment.previewInEditMode' is assigned but its value is never used

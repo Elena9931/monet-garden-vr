@@ -1,0 +1,12 @@
+Windows final build smoke test: 2026-10-09
+PASS actual executable launched
+PASS painted globe rendered
+PASS native Giverny marker selection / animated card focus
+PASS native card click enters original Gaussian garden
+PASS frosted guide renders with fixed heading spacing
+PASS mouse wheel scroll changes long first page
+PASS page 02 / page 03 / Confirm
+PASS Confirm collapses panel
+PASS Tab permits Guide reopen with page 03 retained
+PASS close button collapses with reopen icon
+LIMIT full standalone human walking / seven-second sequence / ten-second return loop not manually completed; these passed in the actual Unity Play probe. A single W tap is not claimed as a route test.

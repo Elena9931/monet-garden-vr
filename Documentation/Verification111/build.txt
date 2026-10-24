@@ -1,0 +1,6 @@
+Unity 2022.3.62f3c1
+Source: local 111
+Scene: Assets/Scenes/MonetGarden_Prototype.unity
+UTC: 2026-10-24T16:31:22.6616480Z
+Target: StandaloneWindows64
+Succeeded; errors 0; warnings 0; bytes 232352927

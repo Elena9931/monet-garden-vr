@@ -125,3 +125,73 @@ Game PNG 由最终 Play 回归的真实运行状态采集；Unity 窗口 PNG 补
 - [F05_FinalMonet_Game.png](ProcessShots/F05_FinalMonet_Game.png) — 已生成，731,974 bytes。
 
 没有制作替代原作、伪造 Inspector 或生成开发截图。HLSL 为手写 URP Shader，未使用 Shader Graph 节点；Particle System 为真实 Unity 粒子系统。
+
+# Second round — 2026-10-09 (eight evidence groups)
+The Game PNGs below are real Unity ScreenCapture images from the final Play regression. Unity JPGs are real editor window captures. The Uniform Sphere Inspector image is an actual paused sequence for parameter inspection; use Game frames to judge the live composited effect. No AI-generated development screenshots. Earlier first-round evidence remains historical.
+
+## 01 — Earth Material Optimization
+Screenshot: [Before, first round](ProcessShots/F01_Globe_Game.png), [After](ProcessShots/R2_F01_Globe_Game.png), [Material Inspector](ProcessShots/R2_01_EarthMaterial_Unity.jpg), [Native drag rotation](ProcessShots/R2_01_EarthRotated_Unity.jpg).
+Tools: Unity / Python Pillow / C# / HLSL.
+Technology: Equirectangular Texture Mapping, Procedural Impasto Synthesis, URP Lighting, Atmospheric Rim Rendering.
+Operation: Processed public-domain Natural Earth raster and land polygons into a 4096×2048 seamless texture; applied the new material to the existing sphere; retained independent Giverny pins and drag inertia.
+Chinese Description: 保留真实大陆位置，以程序化厚涂笔触重绘蓝色海洋与金绿色陆地，并增加柔和金色日出及大气辉光。
+English Description: A geographically grounded Earth texture translates the globe into an impressionist palette, while soft atmospheric light preserves its three-dimensional form.
+
+## 02 — Glassmorphism UI
+Screenshot: [Expanded](ProcessShots/R2_02_GuideExpanded_Game.png), [Collapsed](ProcessShots/R2_02_GuideCollapsed_Game.png), [Canvas Inspector](ProcessShots/R2_02_GuideCanvas_Unity.jpg).
+Tools: Unity UGUI / C# / HLSL.
+Technology: Screen-Space Canvas, Live Background Sampling, Nine-Tap Blur, Rounded Mask, ScrollRect, Cursor Mode Switching.
+Operation: Added a responsive upper-right guide to the existing experience controller; kept all three English passages verbatim; connected paging, scroll, collapse, close, reopen and Tab.
+Chinese Description: 磨砂玻璃导览窗以三页内容引导探索，阅读模式与第一人称观察模式可切换。
+English Description: A compact frosted guide introduces the garden and leads visitors into exploration through a three-page reading sequence.
+
+## 03 — Animated Viewpoint Marker
+Screenshot: [Gold ground cue](ProcessShots/R2_03_GoldMarker_Game.png), [Marker parameters Inspector](ProcessShots/R2_03_MarkerParameters_Unity.jpg).
+Tools: Unity / C# / Particle System / Procedural Mesh.
+Technology: Breathing Emission, Low-Amplitude Float, Quest-Gated Visibility.
+Operation: Reused QuietViewpointLights; added a tiny gold octahedral cue near the existing viewpoint with slow rotation, breathing colour and a two-second float cycle. Confirm on page three enables it; triggering hides it immediately.
+Chinese Description: 小型金色菱形与微弱光点标记近地面观察位置，只有完成导览确认才出现。
+English Description: A subtle floating gold cue invites discovery of the approximate viewpoint without dominating the garden.
+
+## 04 — Viewpoint Detection
+Screenshot: [Aligned garden](ProcessShots/R2_F04_Viewpoint_Game.png), [Detection Inspector](ProcessShots/R2_04_ViewpointInspector_Unity.jpg).
+Tools: Unity / C# / Character Controller.
+Technology: Spatial Proximity, Yaw/Pitch Alignment, Continuous Dwell Detection.
+Operation: Reused the calibrated viewpoint and bank proxies. Added guide confirmation gating; retained simultaneous distance, vertical, yaw and pitch checks with a three-second uninterrupted hold. UI mode pauses the hold.
+Chinese Description: 位置与朝向必须同时满足，且持续观察三秒才触发；此位置为构图推测，不是史料确认坐标。
+English Description: Position and viewing direction are evaluated together to reveal an approximate artist viewpoint after a sustained gaze.
+
+## 05 — Gaussian Particle Dissolution
+Screenshot: [Reality](ProcessShots/R2_F05_AlignedReal_Game.png), [Dissolution](ProcessShots/R2_05_SphereDissolution_Game.png), [Uniform Sphere Points Inspector](ProcessShots/R2_05_UniformSphereInspector_Unity.jpg).
+Tools: Unity / GSplat Renderer / C# / HLSL.
+Technology: Uniform Sphere Points, GPU Vertex Choreography, Scale Interpolation, Camera Lock.
+Operation: The live renderer temporarily switches to its existing Uniform Sphere Points effect; optional Shader parameters interpolate source shapes into sphere points during 0–1.5s. Original buffers are not modified.
+Chinese Description: 真实花园逐渐变为球形高斯点，镜头锁定，保留初始空间轮廓。
+English Description: The garden dissolves into spherical Gaussian points while the visitor's viewpoint remains fixed.
+
+## 06 — Particle Dispersion
+Screenshot: [Live dispersion](ProcessShots/R2_06_Dispersion_Game.png).
+Tools: Unity / GSplat / HLSL.
+Technology: Deterministic GPU Offsets, Swirl Motion, Depth-Layered Dispersion, Alpha Thinning.
+Operation: During 1.5–3.5s source-coloured points spread at varied speeds with a gentle swirl. Near-camera alpha softening reduces intrusive splats; no per-frame CPU iteration over the source points.
+Chinese Description: 花园色彩向空间扩散，速度与深度变化由GPU计算；透明排序仍沿用插件原排序，因此这是演出近似。
+English Description: Coloured Gaussian points disperse through depth, transforming the garden into a moving field of light and pigment.
+
+## 07 — Particle Reconstruction
+Screenshot: [Live reconstruction](ProcessShots/R2_07_Reconstruction_Game.png).
+Tools: Unity / C# / HLSL / Static Billboard Mesh.
+Technology: GPU Particle Convergence, Painting Colour Sampling, Spatial Reveal Mask.
+Operation: During 3.5–5.5s retained splats converge onto a camera-aligned painting plane and sample the supplied image colours. An 18,000-quad static GPU mesh supports the composition; a continuous noise reveal resolves painting structure.
+Chinese Description: 粒子向画作平面收束，逐渐采用原作色彩，并通过空间遮罩显现桥与植物构图。
+English Description: Dispersed colour gathers into a painting plane as the original composition emerges through a spatial reveal.
+
+## 08 — Impressionist Artwork Reveal
+Screenshot: [Complete original](ProcessShots/R2_F05_FinalMonet_Game.png).
+Tools: Unity / URP Renderer Feature / C#.
+Technology: Aspect-Fit Image Presentation, Seven-Second Sequence, Independent Ten-Second Hold, Resettable State Machine.
+Operation: During 5.5–7s particles fade and the exact supplied original resolves without cropping or stretching. A separate clock begins after its first complete frame; measured hold 10.0051s, then automatic return and a second complete cycle.
+Chinese Description: 七秒转换后完整显示用户原作，独立停留十秒，自动返回地球并重置流程。
+English Description: The supplied original painting resolves in full, remains still for ten seconds, and gently returns visitors to the globe.
+
+## Round 2 verification limits
+70 real Play checks passed across two loops. Native editor mouse drag, Giverny selection, card entry, guide scroll, paging, Confirm and reopen were exercised. These checks do not prove every human walking route, artistic quality or mobile VR performance. Screenshots are still images, not evidence of temporal smoothness. Actual standalone build/startup results are recorded in ROUND2_REPORT.md. Final Windows native guide evidence: [Expanded](ProcessShots/R2_02_Guide_Windows.jpg), [Collapsed](ProcessShots/R2_02_Collapsed_Windows.jpg), [Reopened](ProcessShots/R2_02_Reopened_Windows.jpg). The beforeHeaderFix image documents the earlier spacing issue and is not the final UI.

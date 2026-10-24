@@ -45,13 +45,20 @@ namespace MonetGarden.Editor
                 if(SceneManager.GetActiveScene().path!="Assets/Scenes/MonetGarden_Prototype.unity")
                     throw new InvalidOperationException("Automation only operates on the prototype scene.");
                 if(request.action=="validate")RunValidation();
+                else if(request.action=="round2-upgrade" && !EditorApplication.isPlaying)GardenRound2Upgrade.Apply();
                 else if(request.action=="final-upgrade" && !EditorApplication.isPlaying)GardenFinalUpgrade.Apply();
+                else if(request.action=="evidence-sequence" && EditorApplication.isPlaying)new GameObject("MonetEvidenceProbe").AddComponent<GardenEvidenceProbe>();
+                else if(request.action=="resume")EditorApplication.isPaused=false;
                 else if(request.action=="play")EditorApplication.isPlaying=true;
                 else if(request.action=="stop")EditorApplication.isPlaying=false;
                 else if(request.action=="save" && !EditorApplication.isPlaying)EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
                 else if(request.action=="explore" && GardenExperience.Active)GardenExperience.Active.EnterGarden();
                 else if(request.action=="map" && GardenExperience.Active)GardenExperience.Active.ResetExperience(true);
                 else if(request.action=="audit")Audit();
+                else if(request.action=="evidence-earth")Selection.activeObject=AssetDatabase.LoadAssetAtPath<Material>("Assets/MonetGarden/Materials/M_Earth_Impressionist.mat");
+                else if(request.action=="evidence-guide")Selection.activeGameObject=GameObject.Find("GardenGuideCanvas");
+                else if(request.action=="evidence-marker")Selection.activeGameObject=GameObject.Find("QuietViewpointLights");
+                else if(request.action=="evidence-splats")Selection.activeGameObject=GameObject.Find("GSplat");
                 else if(request.action=="calibrate" && !EditorApplication.isPlaying)Calibrate();
                 else if(request.action=="evidence-collision" && !EditorApplication.isPlaying)ShowCollisionEvidence();
                 else if(request.action=="evidence-viewpoint" && EditorApplication.isPlaying)ShowViewpointEvidence();
@@ -117,7 +124,7 @@ namespace MonetGarden.Editor
                 int missing=GameObjectUtility.GetMonoBehavioursWithMissingScriptCount(t.gameObject);
                 if(missing>0)text+=$"MISSING {t.name}: {missing}\n";
             }
-            foreach(var name in new[]{"MonetGarden/PainterlyTransition","MonetGarden/LocalWaterRipples","MonetGarden/LocalFoliageSway","MonetGarden/ImpressionistEarth","MonetGarden/PigmentParticles"})
+            foreach(var name in new[]{"MonetGarden/PainterlyTransition","MonetGarden/LocalWaterRipples","MonetGarden/LocalFoliageSway","MonetGarden/ImpressionistEarth","MonetGarden/PigmentParticles","MonetGarden/FrostedGuide","MonetGarden/GPUReassembly","MonetGarden/Atmosphere","Gsplat/Standard"})
             {
                 var shader=Shader.Find(name);text+=$"Shader {name}: found={shader!=null}, supported={(shader ? shader.isSupported : false)}\n";
                 if(shader)foreach(var m in ShaderUtil.GetShaderMessages(shader))text+=$"Shader diagnostic {m.severity}: {m.message}\n";

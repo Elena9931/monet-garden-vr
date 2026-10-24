@@ -9,6 +9,8 @@ namespace MonetGarden
     {
         public Texture2D surfaceTexture;
         public Shader globeShader;
+        public Material surfaceMaterial;
+        public Material atmosphereMaterial;
         [Range(.05f,.6f)] public float dragSensitivity=.18f;
         [Range(1,10)] public float inertiaFriction=3.2f;
         public float focusSeconds=1.6f;
@@ -42,11 +44,13 @@ namespace MonetGarden
             Color[] bg=new Color[128*128];
             for(int y=0;y<128;y++)for(int x=0;x<128;x++)
             {float light=Mathf.Exp(-((x-90)*(x-90)+(y-100)*(y-100))/4800f);float noise=Mathf.PerlinNoise(x*.06f,y*.06f);bg[y*128+x]=new Color(.009f+light*.016f,.018f+light*.043f,.055f+light*.085f)+new Color(.005f,.01f,.014f)*noise;}
+            for(int y=0;y<128;y++)for(int x=0;x<128;x++){float sunrise=Mathf.Exp(-((x-86)*(x-86)+(y-98)*(y-98))/180f);bg[y*128+x]+=new Color(.22f,.16f,.045f)*sunrise;}
             Background.SetPixels(bg);Background.Apply();
             var sphere=new GameObject("ImpressionistEarth_3D");sphere.transform.SetParent(transform,false);Sphere=sphere.transform;sphere.layer=Layer;
             sphere.AddComponent<MeshFilter>().sharedMesh=BuildSphere(128,64);
-            earthMaterial=new Material(globeShader);earthMaterial.SetTexture("_MainTex",surfaceTexture);
+            earthMaterial=surfaceMaterial?new Material(surfaceMaterial):new Material(globeShader);earthMaterial.SetTexture("_MainTex",surfaceTexture);
             sphere.AddComponent<MeshRenderer>().sharedMaterial=earthMaterial;
+            if(atmosphereMaterial){var halo=new GameObject("SoftAtmosphereRim");halo.layer=Layer;halo.transform.SetParent(Sphere,false);halo.transform.localScale=Vector3.one*1.027f;halo.AddComponent<MeshFilter>().sharedMesh=sphere.GetComponent<MeshFilter>().sharedMesh;halo.AddComponent<MeshRenderer>().sharedMaterial=atmosphereMaterial;}
             pinMaterial=new Material(Shader.Find("Universal Render Pipeline/Unlit"));pinMaterial.color=new Color(.94f,.105f,.045f);
             AddMarker(49.075f,1.534f,true,"Giverny_SELECTABLE");
             AddMarker(51.5f,-.12f,false,"London_FUTURE");AddMarker(48.21f,16.37f,false,"Vienna_FUTURE");
@@ -58,7 +62,7 @@ namespace MonetGarden
             GlobeCamera.cullingMask=1<<Layer;GlobeCamera.clearFlags=CameraClearFlags.SolidColor;GlobeCamera.backgroundColor=new Color(.015f,.03f,.095f,0);
             GlobeCamera.allowHDR=false;GlobeCamera.allowMSAA=false;
             var extra=GlobeCamera.GetUniversalAdditionalCameraData();extra.SetRenderer(1);extra.renderPostProcessing=false;extra.requiresColorOption=CameraOverrideOption.Off;extra.requiresDepthOption=CameraOverrideOption.Off;
-            View=new RenderTexture(1280,720,24,RenderTextureFormat.ARGB32);View.Create();GlobeCamera.targetTexture=View;
+            View=new RenderTexture(1920,1080,24,RenderTextureFormat.ARGB32);View.Create();GlobeCamera.targetTexture=View;
             homeRotation=Quaternion.FromToRotation(Geographic(28,-8),Vector3.back);homeCamera=GlobeCamera.transform.localPosition;
             ResetGlobe();
         }

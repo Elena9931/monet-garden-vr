@@ -18,15 +18,15 @@ Shader "MonetGarden/ImpressionistEarth"
             half4 Frag(V i):SV_Target
             {
                 float3 n=normalize(i.normalWS),v=normalize(_WorldSpaceCameraPos-i.positionWS);
-                float diffuse=saturate(dot(n,normalize(float3(-.4,.6,-.7))));
+                float diffuse=saturate(dot(n,normalize(float3(.5,.55,-.7))));
                 float2 cell=floor(i.uv*float2(420,210));
                 float brush=sin((frac(i.uv.y*210)+frac(i.uv.x*420)*.35)*14+H(cell)*6.28);
                 float fibre=sin(i.uv.x*5600+sin(i.uv.y*1300)*.8)*sin(i.uv.y*3400);
                 half3 c=SAMPLE_TEXTURE2D(_MainTex,sampler_MainTex,i.uv).rgb;
-                c*=.39+.7*diffuse+brush*.035+fibre*.013;
+                c*=.62+.49*diffuse+brush*.025+fibre*.009;
                 float rim=pow(1-saturate(dot(n,v)),3);
                 c+=rim*half3(.06,.17,.26)*(.3+diffuse);
-                c+=pow(diffuse,12)*half3(.21,.15,.065);
+                c+=pow(diffuse,16)*half3(.14,.105,.045);
                 return half4(c,1);
             }
             ENDHLSL

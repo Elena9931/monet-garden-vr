@@ -7,4 +7,8 @@ Shader MonetGarden/LocalWaterRipples: found=True, supported=True
 Shader MonetGarden/LocalFoliageSway: found=True, supported=True
 Shader MonetGarden/ImpressionistEarth: found=True, supported=True
 Shader MonetGarden/PigmentParticles: found=True, supported=True
+Shader MonetGarden/FrostedGuide: found=True, supported=True
+Shader MonetGarden/GPUReassembly: found=True, supported=True
+Shader MonetGarden/Atmosphere: found=True, supported=True
+Shader Gsplat/Standard: found=True, supported=True
 State=Selection, progress=0, effectRendered=False

@@ -21,7 +21,7 @@ namespace MonetGarden
         bool Applies(in RenderingData data)
         {
             var experience = GardenExperience.Active;
-            return experience && experience.Progress > 0 && experience.player &&
+            return experience && (experience.Progress > 0 || (experience.guide && experience.guide.Expanded && experience.State==GardenExperience.ExperienceState.Exploration)) && experience.player &&
                 data.cameraData.camera == experience.player.viewCamera && !data.cameraData.isPreviewCamera;
         }
         public override void AddRenderPasses(ScriptableRenderer renderer, ref RenderingData renderingData)
@@ -66,6 +66,11 @@ namespace MonetGarden
                 var descriptor = data.cameraData.cameraTargetDescriptor;
                 material.SetVector("_SourceTexelSize", new Vector4(1f / descriptor.width, 1f / descriptor.height, descriptor.width, descriptor.height));
                 var cmd = CommandBufferPool.Get("Monet: reality to painterly");
+                if(experience.State==GardenExperience.ExperienceState.Exploration) {
+                    Blitter.BlitCameraTexture(cmd, source, reality);
+                    cmd.SetGlobalTexture("_MonetGuideBackground",reality.nameID);
+                    context.ExecuteCommandBuffer(cmd);CommandBufferPool.Release(cmd);return;
+                }
                 if (experience.CaptureRequested) { Blitter.BlitCameraTexture(cmd, source, reality); experience.CaptureRequested = false; }
                 material.SetTexture("_Reality", reality.rt);
                 Blitter.BlitCameraTexture(cmd, source, scratch, material, 0);

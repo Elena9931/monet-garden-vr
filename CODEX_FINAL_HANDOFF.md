@@ -1,3 +1,11 @@
+> 历史开发交接材料。当前发布版本的实际运行与截图以 [2026-10-25核对报告](Documentation/VERIFICATION_2026-10-25.md) 及 [版本差异](Documentation/VERSION_COMPARISON_111.md) 为准。
+
+# Latest: Round 2 — 2026-10-09
+
+Read Documentation/ROUND2_REPORT.md, ROUND2_DEMO_GUIDE.md, PROCESS_LOG.md and Validation/round2_play_validation.txt. Round 2 incrementally replaces the first-round pigment CPU particles with GPU choreography and adds the guide confirmation gate. Saved Prototype is already upgraded; do not run older upgrade menus. Windows output is outputs/MonetGardenRound2. Preserve exact original and source splat data. See Round 2 backup and limits in report.
+
+## Historical first-round handoff (superseded where Round 2 differs)
+
 # Final revision handoff — 2026-10-09
 
 Latest user request overrides historical character and E-key requirements. Keep this existing project and Prototype.

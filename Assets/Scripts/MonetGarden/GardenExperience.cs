@@ -16,7 +16,9 @@ namespace MonetGarden
         public Shader painterlyShader;
         public GardenGlobe globeInterface;
         public GardenReassembly reassembly;
-        [Range(4,20)] public float transitionSeconds=9;
+        public GardenGuide guide;
+        public GardenGaussianTransition gaussianTransition;
+        [Range(4,20)] public float transitionSeconds=7;
         [Range(1,5)] public float entrySeconds=2.4f, returnSeconds=2.4f;
         public float explorationDistance=.4f;
         public bool requireConfirmation=false; // Retained for serialization; final experience always auto-triggers.
@@ -54,6 +56,8 @@ namespace MonetGarden
             if(artworks!=null && artworks.Length>0)SelectedArtwork=artworks[0];
             if(globeInterface)globeInterface.Initialize(this);
             if(reassembly)reassembly.Initialize(this);
+            if(guide)guide.Initialize(this);
+            if(gaussianTransition)gaussianTransition.Initialize(this);
             ResetExperience(true);
         }
         public void EnterGarden(int index=0)
@@ -65,6 +69,8 @@ namespace MonetGarden
         }
         void ResetWorld()
         {
+            if(guide)guide.ResetGuide();
+            if(gaussianTransition)gaussianTransition.Restore();
             cycle++;Progress=0;HasExplored=false;EffectRendered=false;CaptureRequested=false;PaintingStartedAt=-1;
             viewpoint.ResetDetection();player.ResetToSpawn();player.SetInput(false);
             player.viewCamera.fieldOfView=explorationFieldOfView;
@@ -80,9 +86,10 @@ namespace MonetGarden
         }
         public bool BeginTransition()
         {
-            if(State!=ExperienceState.Exploration || !HasExplored || !viewpoint.Ready)return false;
+            if(State!=ExperienceState.Exploration || !HasExplored || !viewpoint.Ready || (guide && !guide.QuestConfirmed))return false;
             if(!SelectedArtwork || !SelectedArtwork.HasDocumentedOriginal){Debug.LogWarning("MONET_ORIGINAL_MISSING: selected image required.");return false;}
-            State=ExperienceState.Transition;player.SetInput(false);Progress=0;CaptureRequested=true;
+            State=ExperienceState.Transition;if(guide)guide.HideForSequence();var marker=FindObjectOfType<GardenViewpointLight>();if(marker)marker.HideForSequence();player.SetInput(false);Progress=0;CaptureRequested=true;
+            if(gaussianTransition)gaussianTransition.Begin();
             if(reassembly)reassembly.Begin();
             return true;
         }
@@ -98,7 +105,7 @@ namespace MonetGarden
                 float proximity=HasExplored?1-Mathf.Clamp01(Vector3.Distance(player.viewCamera.transform.position,viewpoint.transform.position)/.9f):0;
                 float targetLens=Mathf.Lerp(explorationFieldOfView,compositionFieldOfView,Mathf.SmoothStep(0,1,proximity));
                 player.viewCamera.fieldOfView=Mathf.Lerp(player.viewCamera.fieldOfView,targetLens,1-Mathf.Exp(-Time.deltaTime*lensResponse));
-                viewpoint.Tick(player.viewCamera,Time.deltaTime,HasExplored);
+                viewpoint.Tick(player.viewCamera,Time.deltaTime,HasExplored && (!guide || guide.QuestConfirmed) && !player.UIInteraction);
                 if(viewpoint.Ready)BeginTransition();
             }
             else if(State==ExperienceState.Entering)
@@ -109,6 +116,7 @@ namespace MonetGarden
             else if(State==ExperienceState.Transition)
             {
                 Progress=Mathf.Clamp01(Progress+Time.unscaledDeltaTime/Mathf.Max(.5f,transitionSeconds));
+                if(gaussianTransition)gaussianTransition.Tick(Progress);
                 if(reassembly)reassembly.Tick(Progress);
                 if(Progress>=1){State=ExperienceState.Painting;StartCoroutine(StartPaintingClock(cycle));}
             }
@@ -161,10 +169,10 @@ namespace MonetGarden
             {if(globeInterface)globeInterface.Draw(State==ExperienceState.Selection?1:1-StateProgress,State==ExperienceState.Selection);return;}
             if(State==ExperienceState.Transition){if(reassembly)reassembly.Draw();return;}
             if(caption==null){caption=new GUIStyle(GUI.skin.label){fontSize=Mathf.Clamp(Screen.height/42,12,20),alignment=TextAnchor.MiddleCenter};caption.normal.textColor=new Color(.93f,.9f,.77f);}
-            if(ShowGuide)
+            if(ShowGuide && (!guide || guide.QuestConfirmed))
             {
                 string text=!HasExplored?"Explore the garden paths. Let the bridge guide your attention.":
-                    viewpoint.Aligned?"Approximate Artist Viewpoint  ·  Hold your gaze":"Find the quiet lights along the bank.";
+                    viewpoint.Aligned?"Approximate Artist Viewpoint  ·  Hold your gaze":viewpoint.Distance<=viewpoint.radius?"Look towards the Japanese bridge.":"Find the quiet gold light along the bank.";
                 GUI.Label(new Rect(0,Screen.height-65,Screen.width,30),text,caption);
                 if(!HasExplored)GUI.Label(new Rect(0,Screen.height-35,Screen.width,25),"WASD · Shift · click to look · Esc release",caption);
             }
@@ -175,6 +183,7 @@ namespace MonetGarden
         {
             if(Active==this)Active=null;
             if(ownsPipeline && QualitySettings.renderPipeline==prototypePipeline)QualitySettings.renderPipeline=previousPipeline;
+            if(gaussianTransition)gaussianTransition.Restore();
             if(player)player.ReleaseCursor();
         }
     }

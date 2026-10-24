@@ -1,0 +1,8 @@
+    Version:         Direct3D 12 [level 12.1]
+    Renderer:        NVIDIA GeForce RTX 4070 Laptop GPU (ID=0x2860)
+MONET_GLOBE_POINTER_RELEASE: 0.0 px
+MONET_LANDMARK_SELECTED: Giverny
+MONET_GARDEN_ENTRY: second selection confirmed
+MONET_GUIDE_CONFIRMED
+MONET_ORIGINAL_FULL_FRAME: clock started.
+MONET_HOLD_COMPLETE: 10.0018s; loop=1

@@ -12,6 +12,7 @@ namespace MonetGarden
         public LayerMask groundLayers = ~0;
         public bool useGravity = true;
         public bool InputEnabled { get; private set; }
+        public bool UIInteraction {get;set;}
         public bool Grounded => capsule && capsule.isGrounded;
         public Vector3 SpawnPosition { get; private set; }
         public Quaternion SpawnLook { get; private set; }
@@ -49,7 +50,7 @@ namespace MonetGarden
         void Update()
         {
             if (Input.GetKeyDown(KeyCode.Escape)) ReleaseCursor();
-            if (!InputEnabled) return; // A locked composition also stops gravity drift.
+            if (!InputEnabled || UIInteraction) return; // A locked composition also stops gravity drift.
             if (InputEnabled && Input.GetMouseButtonDown(0)) CaptureCursor();
             if (InputEnabled && Cursor.lockState == CursorLockMode.Locked)
             {

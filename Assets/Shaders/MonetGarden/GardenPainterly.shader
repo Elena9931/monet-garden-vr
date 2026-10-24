@@ -34,12 +34,14 @@ Shader "MonetGarden/PainterlyTransition"
                 float remain=1-smoothstep(noise-.065,noise+.065,dissolve);
                 float edge=1-saturate(abs(noise-dissolve)/.05);
                 float2 drift=float2(sin(seed*32+t*4),cos(seed*21+t*3))*.075*dissolve;
-                half3 raw=SAMPLE_TEXTURE2D(_Reality,sampler_Reality,clamp(uv+drift*(1-remain),.001,.999)).rgb;
+                half3 raw=SAMPLE_TEXTURE2D_X(_BlitTexture,sampler_LinearClamp,uv).rgb;
+                remain=1-smoothstep(.49,.8,t);
+                edge=0;
                 half3 background=half3(.015,.035,.08)+half3(.014,.021,.015)*N(uv*6);
                 half3 result=lerp(background,raw*half3(1.025,1.02,.96),remain);
                 result+=edge*half3(.48,.42,.16)*.19*(1-smoothstep(.34,.5,t));
                 // Screen-space fragments retain source colours while floating away from their grid.
-                float fragment=smoothstep(.13,.23,t)*(1-smoothstep(.33,.52,t));
+                float fragment=0;
                 float brushShape=(1-smoothstep(.31,.48,abs(local.x)))*(1-smoothstep(.12,.29,abs(local.y)));
                 result=lerp(result,raw,fragment*brushShape*.63);
                 float2 imageUV=uv;
@@ -48,10 +50,10 @@ Shader "MonetGarden/PainterlyTransition"
                 float2 coarseUV=(floor(imageUV*float2(32,30))+.5)/float2(32,30);
                 half3 coarse=Painting(coarseUV),fine=Painting(imageUV);
                 float bridgePriority=1-smoothstep(.12,.42,abs(imageUV.y-.52));
-                float arrival=seed*.55+(1-bridgePriority)*.2;
-                float assembly=smoothstep(arrival-.07,arrival+.1,saturate((t-.4)/.49));
-                float coarseAmount=1-smoothstep(.58,.82,t);
-                half3 pigment=lerp(fine,coarse,coarseAmount*.85);
+                float arrival=N(imageUV*float2(47,53))*.55+(1-bridgePriority)*.2;
+                float assembly=smoothstep(arrival-.07,arrival+.1,saturate((t-.5)/.28));
+                float coarseAmount=1-smoothstep(.68,.9,t);
+                half3 pigment=lerp(fine,coarse,coarseAmount*.16);
                 float stroke=sin(local.y*24+local.x*4+seed*6.28)*.018;
                 pigment+=stroke*(1-smoothstep(.82,.97,t));
                 result=lerp(result,pigment,assembly*_HasPainting);

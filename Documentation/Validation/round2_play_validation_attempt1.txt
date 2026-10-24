@@ -1,0 +1,72 @@
+Round 2 real Unity Play validation 2026-10-09T21:21:01.0228974+08:00
+Unity 2022.3.62f3c1, NVIDIA GeForce RTX 4070 Laptop GPU, Direct3D12
+PASS Experience loaded 
+PASS Starts on 3D earth 
+PASS Exact user image bound at full imported size 
+PASS No human GameObjects or actor behaviours 
+PASS Multiple pins with only one valid destination 
+PASS Future marker rejected London_FUTURE 
+PASS Future marker rejected Vienna_FUTURE 
+PASS Future marker rejected Rome_FUTURE 
+PASS Future marker rejected Madrid_FUTURE 
+PASS Future marker rejected NewYork_FUTURE 
+PASS Future marker rejected Tokyo_FUTURE 
+PASS Exactly one interactive marker 
+PASS Real sphere rotation changes 
+PASS Future pin pointer cannot enter London_FUTURE 
+PASS Future pin pointer cannot enter Vienna_FUTURE 
+PASS Future pin pointer cannot enter Rome_FUTURE 
+PASS Future pin pointer cannot enter Madrid_FUTURE 
+PASS Future pin pointer cannot enter NewYork_FUTURE 
+PASS Giverny collider raycast 
+PASS Giverny selection accepted 
+PASS Focus, zoom and pin enlargement 
+PASS Selected pin remains outside information card 
+PASS Artistic entry is timed rather than a cut 
+PASS Exploration and WASD input enabled 
+FAIL Gravity lands on proxy feet=(0.600, -0.006, 0.200)
+PASS Three synthesized ambience sources playing 
+PASS No trigger before exploration 
+PASS Guide starts on exact first page 
+PASS Marker hidden before confirmation 
+PASS Guide closes without confirming quest 
+PASS Second guide page 
+PASS Guide back navigation 
+PASS Third page alone does not confirm 
+PASS Confirmation starts quest and closes panel 
+PASS Marker shown only after confirmation 
+PASS North water blocks player 
+PASS South pond blocks player 
+PASS West obstacle blocks player 
+PASS Connected bank/gravel route (1.62, 0.00, 0.15) actual=(1.544, -0.039, 0.154)
+PASS Connected bank/gravel route (1.62, 0.00, -1.30) actual=(1.617, -0.067, -1.244)
+PASS Connected bank/gravel route (1.62, 0.00, -2.65) actual=(1.620, -0.067, -2.574)
+PASS Connected bank/gravel route (2.58, 0.00, -3.18) actual=(2.538, -0.067, -3.153)
+PASS Connected bank/gravel route (2.58, 0.00, -4.00) actual=(2.577, -0.067, -3.921)
+PASS Exploration from actual movement 
+PASS Position alone insufficient 
+PASS Angle alone insufficient 
+PASS Interrupted dwell resets 
+PASS Dwell has not triggered early 
+PASS Automatic trigger after dwell without E 
+PASS Uniform Sphere Points selected for real splat renderer 
+FAIL Guide hidden during transformation 
+FAIL Marker hidden during transformation 
+PASS Actual particle system populated particles=18000
+PASS Dissolve render pass executes progress=0.628
+PASS Transition camera and root fixed 
+PASS Seven-second sequence duration 
+PASS Original fully formed and clock started 
+PASS All control disabled during original 
+PASS Final original colour across nine image patches mean RGB channel error=0.00295
+PASS Original still visible before 10 seconds 
+PASS No camera drift throughout hold 
+PASS 10 seconds measured separately from effect actual=10.0047s
+PASS Automatic gentle return 
+PASS Clean return to interactive globe 
+PASS Particles reset 
+PASS Splat parameters restored 
+PASS Guide quest resets 
+PASS Second cycle auto-trigger 
+PASS Second cycle fully completes 
+RESULT: 69 checks; 3 failures. Full human keyboard/route regression and PICO are separate.
