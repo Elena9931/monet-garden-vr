@@ -8,11 +8,13 @@
 
 ## 下载与运行
 
-在本仓库的 **Releases** 页面选择标注 **111 / 2026-10-25** 的 Windows 包，完整解压后运行 `MonetGardenVR.exe`。保留同目录的 `MonetGardenVR_Data`、`MonoBleedingEdge`、UnityPlayer.dll 等全部文件。程序窗口标题为 `111`。
+在 [Releases](https://github.com/Elena9931/monet-garden-vr/releases) 选择标注 **111 / 2026-10-25** 的 Windows 包，完整解压后运行 `MonetGardenVR.exe`。保留同目录的 `MonetGardenVR_Data`、`MonoBleedingEdge`、UnityPlayer.dll 等全部文件。程序窗口标题为 `111`。
 
 原老师仓库的 `v0.1.0 / MonetGardenVR_Windows_Final.zip` 是历史构建，不能代表本页的新流程。新发布结果以 Release 实际附件为准。
 
 本次测试环境为 Windows、RTX 4070 Laptop GPU、Direct3D 12。其他显卡未在本次Windows测试覆盖。PICO版另有设备事件证据，不将桌面显卡结果作为头显性能结论。
+
+快速下载：[Windows ZIP](https://github.com/Elena9931/monet-garden-vr/releases/download/v0.2.0/MonetGarden111_Windows_2026-10-25.zip) · [PICO APK](https://github.com/Elena9931/monet-garden-vr/releases/download/v0.2.0/MonetGarden_PICO4_FieldFix_20261011.apk) · [两个版本源码包](https://github.com/Elena9931/monet-garden-vr/releases/download/v0.2.0/MonetGarden_Windows_and_PICO_Source_2026-10-25.zip)。
 
 ## PICO 头显版
 

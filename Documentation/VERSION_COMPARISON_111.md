@@ -52,3 +52,5 @@
 ## PICO版补充核对
 
 作者指定独立MonetGarden_PICO并确认适配与真机验证已完成。该工程与111分开，Packages含XRI/InputSystem/XRManagement及嵌入式PICO Integration3.4.0，场景使用XR加载器、头显与控制器桥接、移动端262144高斯副本和世界空间UI。成品FieldFix0.1.2的文件哈希与保存的真机循环记录对应；原仓库只有桌面版本。发布时增加PICO目录与APK，保留桌面111，避免用桌面截图或操作代替头显版本。
+
+目标账号与仓库：Elena9931/monet-garden-vr。其新账号公开主页已核对；原老师仓库仅作历史来源，发布不依赖老师的账号。

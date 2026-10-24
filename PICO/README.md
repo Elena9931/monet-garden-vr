@@ -2,7 +2,7 @@
 
 该目录来自作者指定的 MonetGarden_PICO，区别于仓库根目录的111 Windows工程。作者于本次整理中确认已经完成PICO适配和真机验证。当前APK为0.1.2-fieldfix，versionCode3，包名com.monetgarden.pico4，ARM64/Vulkan。APK与保存的10月11日构建和真机循环证据对应。
 
-直接体验请从仓库Releases下载 `MonetGarden_PICO4_FieldFix_20261011.apk`。本次未重新编译APK，分发的是经哈希核对的原始成品；没有把它称作10月25日新构建。
+直接体验请下载 [MonetGarden_PICO4_FieldFix_20261011.apk](https://github.com/Elena9931/monet-garden-vr/releases/download/v0.2.0/MonetGarden_PICO4_FieldFix_20261011.apk)。本次未重新编译APK，分发的是经哈希核对的原始成品；没有把它称作10月25日新构建。
 
 ## 头显操作与流程
 
